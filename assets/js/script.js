@@ -401,3 +401,178 @@ window.exportToExcel = exportToExcel;
 window.printElement = printElement;
 window.showLoading = showLoading;
 window.hideLoading = hideLoading;
+
+// ==============================================
+// TAMBAHAN UNTUK ANGGOTA 4
+// FITUR: Pencarian Tabel, Validasi Form, Auto Hide Alerts
+// ==============================================
+
+// ===== 1. FUNGSI PENCARIAN TABEL (UNIVERSAL) =====
+function initTableSearch(inputId, tableId, columnIndex = 1) {
+    const searchInput = document.getElementById(inputId);
+    if(!searchInput) return;
+    
+    searchInput.addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const table = document.getElementById(tableId);
+        if(!table) return;
+        
+        const tbody = table.getElementsByTagName('tbody')[0];
+        if(!tbody) return;
+        
+        const rows = tbody.getElementsByTagName('tr');
+        
+        for(let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            // Skip jika baris adalah "tidak ada data"
+            if(row.querySelector('td[colspan]')) continue;
+            
+            const cells = row.getElementsByTagName('td');
+            if(cells.length > columnIndex) {
+                const cellText = cells[columnIndex].textContent.toLowerCase();
+                if(cellText.indexOf(searchValue) > -1) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+    });
+}
+
+// ===== 2. AUTO HIDE ALERTS (Pesan sukses/error otomatis hilang) =====
+function initAutoHideAlerts() {
+    const alerts = document.querySelectorAll('.alert:not(.alert-permanent)');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity = '0';
+            setTimeout(() => {
+                if(alert.parentNode) alert.remove();
+            }, 500);
+        }, 3000);
+    });
+}
+
+// ===== 3. VALIDASI NOMINAL (Input angka positif) =====
+function initNominalValidation() {
+    const nominalInputs = document.querySelectorAll('input[type="number"][name="nominal"]');
+    nominalInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            if(this.value < 0) this.value = 0;
+        });
+        input.addEventListener('input', function() {
+            if(this.value < 0) this.value = 0;
+        });
+    });
+}
+
+// ===== 4. VALIDASI NOMOR HP =====
+function initPhoneValidation() {
+    const phoneInputs = document.querySelectorAll('input[name="no_hp"]');
+    phoneInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if(this.value.length > 13) this.value = this.value.slice(0, 13);
+        });
+    });
+}
+
+// ===== 5. VALIDASI FORM TAMBAH WARGA =====
+function initWargaFormValidation() {
+    const form = document.getElementById('formTambahWarga');
+    if(!form) return;
+    
+    form.addEventListener('submit', function(e) {
+        const namaWarga = document.querySelector('[name="nama_warga"]')?.value.trim();
+        const noRumah = document.querySelector('[name="no_rumah"]')?.value.trim();
+        
+        if(!namaWarga) {
+            e.preventDefault();
+            alert('⚠️ Nama Warga tidak boleh kosong!');
+            return false;
+        }
+        
+        if(!noRumah) {
+            e.preventDefault();
+            alert('⚠️ Nomor Rumah tidak boleh kosong!');
+            return false;
+        }
+    });
+}
+
+// ===== 6. VALIDASI FORM TAMBAH JIMPITAN =====
+function initJimpitanFormValidation() {
+    const form = document.getElementById('formTambahJimpitan');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        const idWarga = document.querySelector('[name="id_warga"]')?.value;
+        const status = document.querySelector('[name="status"]')?.value;
+        const nominal = document.querySelector('[name="nominal"]')?.value;
+
+        if (!idWarga) {
+            e.preventDefault();
+            alert('⚠️ Pilih Warga terlebih dahulu!');
+            return false;
+        }
+
+        if (!status) {
+            e.preventDefault();
+            alert('⚠️ Pilih status terlebih dahulu!');
+            return false;
+        }
+
+        if (status === 'Isi' && (!nominal || Number(nominal) <= 0)) {
+            e.preventDefault();
+            alert('⚠️ Nominal harus lebih dari 0 untuk status Isi!');
+            return false;
+        }
+    });
+}
+
+// ===== 7. VALIDASI FORM TAMBAH PENGELUARAN =====
+function initPengeluaranFormValidation() {
+    const form = document.getElementById('formTambahPengeluaran');
+    if(!form) return;
+    
+    form.addEventListener('submit', function(e) {
+        const namaPengeluaran = document.querySelector('[name="nama_pengeluaran"]')?.value.trim();
+        const kategori = document.querySelector('[name="kategori"]')?.value;
+        const nominal = document.querySelector('[name="nominal"]')?.value;
+        
+        if(!namaPengeluaran) {
+            e.preventDefault();
+            alert('⚠️ Nama Pengeluaran tidak boleh kosong!');
+            return false;
+        }
+        
+        if(!kategori) {
+            e.preventDefault();
+            alert('⚠️ Pilih Kategori!');
+            return false;
+        }
+        
+        if(!nominal || nominal <= 0) {
+            e.preventDefault();
+            alert('⚠️ Nominal harus lebih dari 0!');
+            return false;
+        }
+    });
+}
+
+// ===== 8. INISIALISASI SEMUA FITUR =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto hide alerts
+    initAutoHideAlerts();
+    
+    // Validasi nominal dan nomor HP
+    initNominalValidation();
+    initPhoneValidation();
+    
+    // Validasi form
+    initWargaFormValidation();
+    initJimpitanFormValidation();
+    initPengeluaranFormValidation();
+   
+});
