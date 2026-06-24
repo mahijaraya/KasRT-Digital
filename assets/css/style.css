@@ -664,3 +664,10 @@ body.dark-mode .table-custom thead th {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-dark);
 }
+
+/* Style untuk tombol sorting yang aktif */
+.btn-outline-primary.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
