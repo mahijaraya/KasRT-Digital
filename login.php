@@ -164,7 +164,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == 'success') {
                                name="username" 
                                id="username"
                                class="form-control form-control-custom" 
-                               placeholder="Masukkan username bendahara"
+                               placeholder="Masukkan username"
                                autocomplete="off"
                                required>
                     </div>
