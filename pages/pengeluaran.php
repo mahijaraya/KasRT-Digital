@@ -79,9 +79,9 @@ function formatRupiah($angka) {
                 <i class="bi bi-people-fill"></i>
                 <span>Data Warga</span>
             </a>
-            <a href="pemasukan.php" class="menu-item">
+            <a href="jimpitan.php" class="menu-item">
                 <i class="bi bi-cash-stack"></i>
-                <span>Pemasukan / Jimpitan</span>
+                <span>Jimpitan</span>
             </a>
             <a href="pengeluaran.php" class="menu-item active">
                 <i class="bi bi-receipt"></i>
@@ -126,9 +126,6 @@ function formatRupiah($angka) {
                     <i class="bi bi-calendar3"></i>
                     <span id="currentDate"></span>
                 </div>
-                <button id="darkModeToggle" class="btn btn-sm btn-outline-secondary rounded-pill">
-                    <i class="bi bi-moon-fill"></i>
-                </button>
             </div>
         </nav>
         
