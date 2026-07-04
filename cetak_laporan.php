@@ -306,7 +306,7 @@ function formatRupiah($angka) {
 
 <div class="footer">
     <div class="signature">
-        <p>Bendahara RT</p>
+        <p><strong><?php echo $_SESSION['nama'] ?? 'Bendahara RT'; ?></strong></p>
         <br><br><br>
         <p><strong><?php echo $_SESSION['nama'] ?? 'Bendahara RT'; ?></strong></p>
     </div>
